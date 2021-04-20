@@ -2,16 +2,14 @@ import retrieveContent from './query.js';
 
 async function showContent() {
   try {
-    const content = await retrieveContent();
+    const data = await retrieveContent();
 
-    let elt = document.createElement('div');
-    elt.innerHTML = content.join('<br />');
+    let img1 = document.getElementById('img1');
+    img1.src = data[0].imageUrl;
 
-    document.getElementsByTagName('body')[0].appendChild(elt);
   } catch (e) {
     console.log('Error', e);
   }
 }
 
 showContent();
-
