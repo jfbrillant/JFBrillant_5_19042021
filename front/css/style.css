@@ -5,6 +5,7 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap");
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
@@ -9927,6 +9928,22 @@ h3 {
     color: inherit;
     border-color: #dee2e6;
   }
+}
+h1, h2, h3, h4, h5, p, a {
+  font-family: "Dancing Script";
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.navbar-brand {
+  font-size: 250%;
+}
+
+.nav-link {
+  font-size: 150%;
 }
 
 /*# sourceMappingURL=style.css.map */

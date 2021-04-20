@@ -4,7 +4,7 @@ module.exports = {
   mode: "production",
   entry: {
     polyfill: "babel-polyfill",
-    app: "./src/index.js"
+    app: "./js/index.js"
   },
   output: {
     filename: "[name].bundle.js",
@@ -13,9 +13,6 @@ module.exports = {
   devServer: {
     inline:true,
     port: 5000,
-    proxy: {
-      '/api/*': 'http://localhost:3000'
-    }
   },
   module: {
     rules: [
