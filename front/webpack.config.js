@@ -4,7 +4,7 @@ module.exports = {
   mode: "production",
   entry: {
     polyfill: "babel-polyfill",
-    app: "./js/index.js"
+    app: ["./js/index.js", "./js/product.js"]
   },
   output: {
     filename: "[name].bundle.js",

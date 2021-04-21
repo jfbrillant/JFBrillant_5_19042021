@@ -16,7 +16,7 @@ async function showContent() {
             <div class="card shadow">
               <img src="${data[i].imageUrl}" alt="${data[i].description}" class="card-img-top">
               <div class="card-body">
-                  <a href="#" class="card-title stretched-link">${data[i].name}</a>
+                  <a href="http://localhost:5000/product.html?id=${data[i]._id}" class="card-title stretched-link">${data[i].name}</a>
                   <p class="card-text">${data[i].price/100} €</p>
               </div>
             </div>
