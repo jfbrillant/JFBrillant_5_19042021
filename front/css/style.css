@@ -9929,7 +9929,7 @@ h3 {
     border-color: #dee2e6;
   }
 }
-h1, h2, h3, h4, h5, p, a, .btn, label {
+h1, h2, h3, h4, h5, p, a, .btn, label, th {
   font-family: "Dancing Script";
 }
 
@@ -9942,7 +9942,7 @@ a {
   font-size: 2.2rem;
 }
 
-.nav-link {
+.nav-link, th, #total-amount {
   font-size: 1.3rem;
 }
 
@@ -9952,6 +9952,14 @@ a {
 
 p, a {
   font-size: 1.1rem;
+}
+
+.remove-quantity-button, .add-quantity-button {
+  transform: scale(1, 0.5);
+}
+
+.delete-product-button {
+  transform: scale(0.8, 0.6);
 }
 
 /*# sourceMappingURL=style.css.map */

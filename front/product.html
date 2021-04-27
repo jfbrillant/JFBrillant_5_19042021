@@ -25,11 +25,11 @@
                         </button>
                         <div id="navbarContent" class="collapse navbar-collapse">
                            <ul class="navbar-nav">
-                              <li class="nav-item active">
+                              <li class="nav-item">
                                  <a class="nav-link" href="index.html">Accueil</a>
                               </li>
                               <li class="nav-item">
-                                 <a class="nav-link" href="#">Panier</a>
+                                 <a class="nav-link" href="cart.html">Panier</a>
                               </li>
                            </ul>
                         </div>
@@ -43,7 +43,7 @@
         <div class="container">
             <div class="row py-2 py-lg-5">
                 <div class="col">
-                    <h1 class="text-center">Vous avez choisi d'adopter <span id="teddy-name"></span> !</h1>
+                    <h1 class="text-center">N'attendez plus pour adopter <span id="teddy-name"></span> !</h1>
                 </div>
             </div>
             <div id="card-products" class="row d-flex flex-column-reverse flex-lg-row-reverse py-2 py-lg-5">
@@ -51,7 +51,7 @@
                     <form class="form d-flex flex-column px-lg-5">
                         <label for="color" class="my-2">Personnalisez la couleur de votre peluche :</label>
                         <select name="color" id="color" class="form-control my-2"></select>
-                        <button type="button" class="btn btn-dark my-3" >Ajouter au panier</button>
+                        <button type="button" id="cart-btn" class="btn btn-dark my-3" onclick="window.location='cart.html';">Ajouter au panier</button>
                     </form>
                 </div>
             </div>
@@ -83,8 +83,7 @@
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="./polyfill.bundle.js"></script>
-    <script src="./app.bundle.js"></script>
+    <script src="./js/product.js"></script>
     </body>
     
 </html>
