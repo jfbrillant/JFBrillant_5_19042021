@@ -12,11 +12,11 @@ async function retrieveProductById() {
 
 async function showContent() {
     try {
-        const data = await retrieveProductById();
+        const product = await retrieveProductById();
         
-        displayProduct(data);
-        displayColorSelector(data);
-        addToCart(data);
+        displayProduct(product);
+        displayColorSelector(product);
+        addToCart(product);
 
     } catch (e) {
       console.log('Error', e);
@@ -29,17 +29,17 @@ showContent();
 
 
 
-function displayProduct(data) {
-    document.getElementById("teddy-name").innerHTML = data.name;
+function displayProduct(product) {
+    document.getElementById("teddy-name").innerHTML = product.name;
 
     const cardProduct =
         `<div class="col-12 col-lg">
             <div class="card shadow">
-                <img src="${data.imageUrl}" alt="${data.description}" class="card-img-top">
+                <img src="${product.imageUrl}" alt="${product.description}" class="card-img-top">
                 <div class="card-body">
-                    <h2 class="card-text">${data.name}</h2>
-                    <p class="card-text">${data.description}</p>
-                    <p class="card-text">${data.price/100} €</p>
+                    <h2 class="card-text">${product.name}</h2>
+                    <p class="card-text">${product.description}</p>
+                    <p class="card-text">${product.price/100} €</p>
                 </div>
             </div>
         </div>`;
@@ -47,8 +47,8 @@ function displayProduct(data) {
     document.getElementById("card-products").innerHTML += cardProduct;
 }
 
-function displayColorSelector(data) {
-    const colors = data.colors;
+function displayColorSelector(product) {
+    const colors = product.colors;
                 
     for(const c in colors){
         const colorSelect = 
@@ -58,26 +58,38 @@ function displayColorSelector(data) {
     }
 }
 
-function addToCart(data) {
+function addToCart(product) {
     document.getElementById("cart-btn").addEventListener('click', function(e) {
         e.preventDefault;
 
-        const product = {
-            name: data.name,
+        let productToBuy = {
+            name: product.name,
             quantity: 1,
-            price: data.price/100
+            unitPrice: product.price/100,
+            finalPrice: product.price/100
         };
 
         let productsInCart = JSON.parse(localStorage.getItem("product"));
 
         if(productsInCart) {
-            productsInCart.push(product);
-            localStorage.setItem("product", JSON.stringify(productsInCart));
+            checkIfProductIsAlreadyInCart(productToBuy, productsInCart);
   
         } else {        
             productsInCart = [];
-            productsInCart.push(product);
+            productsInCart.push(productToBuy);
             localStorage.setItem("product", JSON.stringify(productsInCart));
         }
     });
+}
+
+function checkIfProductIsAlreadyInCart(productToBuy, productsInCart) {
+    const res = productsInCart.find(article => article.name === productToBuy.name);
+    if(res) {
+        const index = productsInCart.indexOf(res);
+        productsInCart[index].quantity++;
+        localStorage.setItem("product", JSON.stringify(productsInCart));
+    } else {
+        productsInCart.push(productToBuy);
+        localStorage.setItem("product", JSON.stringify(productsInCart));
+    }
 }

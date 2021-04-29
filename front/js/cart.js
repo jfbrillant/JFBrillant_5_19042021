@@ -1,4 +1,4 @@
-async function retrieveContent() {
+async function retrieveProducts() {
     try {
         const res = await fetch("http://localhost:3000/api/teddies");
         return res.json();
@@ -10,21 +10,20 @@ async function retrieveContent() {
 
 async function showContent() {
     try {
-        const data = await retrieveContent();
+        const product = await retrieveProducts();
         
         let productsInCart = JSON.parse(localStorage.getItem("product"));
-        if(productsInCart){
-
-            displayCart();
-            deleteProduct();
+        
+        if(productsInCart === null || productsInCart == 0){
+            displayEmptyCart();
+        } else {
+            setPrice(productsInCart);
+            displayCart(productsInCart);
+            setDeleteAndQuantityButtons(productsInCart);
             displayClearCartbutton();
             setClearCartbutton();
-            displayTotalAmount();
-
-        } else {
-            displayEmptyCart();
+            displayTotalAmount(productsInCart);
         }
-        console.log(productsInCart);
 
     } catch (e) {
         console.log('Error', e);
@@ -37,28 +36,35 @@ async function showContent() {
 
 
 
-  function displayCart() {
+
+function setPrice(productsInCart) {
+    for(const p in productsInCart) {
+        productsInCart[p].finalPrice = productsInCart[p].unitPrice * productsInCart[p].quantity;
+        localStorage.setItem("product", JSON.stringify(productsInCart));
+    }
+}
+
+function displayCart(productsInCart) {
     const tableHead = 
         `<tr>
-            <th scope="col">Article</th>
+            <th scope="col" class="text-left">Article</th>
             <th scope="col" class="text-center">Quantité</th>
             <th scope="col" class="text-right">Prix</th>
         </tr>`
     document.getElementById("table-head").innerHTML += tableHead;
-    let productsInCart = JSON.parse(localStorage.getItem("product"));
     for(const p in productsInCart) {
        const productToDisplay =
             `<tr>
-                <td class="name">${productsInCart[p].name}</td>
+                <td class="name text-left">${productsInCart[p].name}</td>
                 <td class="quantity text-center">
-                    <button type="button" class="remove-quantity-button btn btn-dark text-center mx-2 px-1 py-1">-</button>
+                    <button type="button" data-name="${productsInCart[p].name}" class="remove-quantity-button btn btn-dark text-center mx-1 mx-lg-2 px-1 py-1">-</button>
                         ${productsInCart[p].quantity}
-                    <button type="button" class="add-quantity-button btn btn-dark mx-2 px-1 py-1">+</button>
+                    <button type="button" data-name="${productsInCart[p].name}" class="add-quantity-button btn btn-dark mx-1 mx-lg-2 px-1 py-1">+</button>
                 </td>
                 <td class="price text-right">
-                    ${productsInCart[p].price} €
-                    <button type="button" data-name="${productsInCart[p].name}" class="delete-product-button btn btn-dark mx-3 px-1 py-1">
-                        <i class="fas fa-trash-alt"></i>
+                    ${productsInCart[p].finalPrice} €
+                    <button type="button" data-name="${productsInCart[p].name}" class="delete-product-button btn btn-dark mx-1 mx-lg-2 px-1 py-1">
+                        X
                     </button>
                 </td>
             </tr>`
@@ -66,13 +72,36 @@ async function showContent() {
     }
 }
 
-function deleteProduct() {
+function setDeleteAndQuantityButtons(productsInCart) {
         document.getElementById("products-in-cart").onclick = function(e) {
         if (e.target && e.target.classList.contains('delete-product-button')) {
-            let productsInCart = JSON.parse(localStorage.getItem("product"));
-            for(const k in productsInCart) {
-                if(productsInCart[k].name === e.target.dataset.name) {
-                    productsInCart.splice(k, 1);
+            for(const p in productsInCart) {
+                if(productsInCart[p].name === e.target.dataset.name) {
+                    productsInCart.splice(p, 1);
+                    localStorage.setItem("product", JSON.stringify(productsInCart));
+                    window.location.href = "cart.html";
+                }
+            }
+        }
+        if (e.target && e.target.classList.contains('remove-quantity-button')) {
+            for(const p in productsInCart) {
+                if(productsInCart[p].name === e.target.dataset.name) {
+                    productsInCart[p].quantity--;
+                    if(productsInCart[p].quantity == 0) {
+                        productsInCart.splice(p, 1);
+                        localStorage.setItem("product", JSON.stringify(productsInCart));
+                        window.location.href = "cart.html";
+                    } else {
+                    localStorage.setItem("product", JSON.stringify(productsInCart));
+                    window.location.href = "cart.html";
+                    }
+                }
+            }
+        }
+        if (e.target && e.target.classList.contains('add-quantity-button')) {
+            for(const p in productsInCart) {
+                if(productsInCart[p].name === e.target.dataset.name) {
+                    productsInCart[p].quantity++;
                     localStorage.setItem("product", JSON.stringify(productsInCart));
                     window.location.href = "cart.html";
                 }
@@ -100,11 +129,10 @@ function setClearCartbutton() {
     });
 }
 
-function displayTotalAmount() {
-    let productsInCart = JSON.parse(localStorage.getItem("product"));
+function displayTotalAmount(productsInCart) {
     let setTotalAmount = 0;
     for(const p in productsInCart) {
-        setTotalAmount += productsInCart[p].price;
+        setTotalAmount += productsInCart[p].finalPrice;
     }
     const totalAmount = 
         `<tr>

@@ -9954,12 +9954,18 @@ p, a {
   font-size: 1.1rem;
 }
 
-.remove-quantity-button, .add-quantity-button {
-  transform: scale(1, 0.5);
+.remove-quantity-button, .add-quantity-button, .delete-product-button {
+  font-family: "Arial";
+  font-weight: bold;
+  transform: scale(0.8, 0.5);
+}
+
+.remove-quantity-button {
+  transform: scale(1.1, 0.5);
 }
 
 .delete-product-button {
-  transform: scale(0.8, 0.6);
+  color: red;
 }
 
 /*# sourceMappingURL=style.css.map */

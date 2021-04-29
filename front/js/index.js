@@ -1,4 +1,4 @@
-async function retrieveContent() {
+async function retrieveProducts() {
   try {
       const res = await fetch("http://localhost:3000/api/teddies");
       return res.json();
@@ -10,12 +10,12 @@ async function retrieveContent() {
 
 async function showContent() {
   try {
-    const data = await retrieveContent();
+    const products = await retrieveProducts();
 
-    for(const d in data) {
+    for(const p in products) {
 
-      displayCarousel(data[d]);
-      displayCardsProduct(data[d]);
+      displayCarousel(products[p]);
+      displayCardsProduct(products[p]);
     }
     document.getElementById("carousel-content").children[0].classList.add("active");
 
@@ -38,8 +38,6 @@ function displayCarousel(product) {
   document.getElementById("carousel-content").innerHTML += carouselContent;
 }
 
-
-
 function displayCardsProduct(product) {
   const cardProduct =
     `<div class="col-12 col-lg-4 my-2">
@@ -54,4 +52,3 @@ function displayCardsProduct(product) {
 
   document.getElementById("card-products").innerHTML += cardProduct;
 }
-
