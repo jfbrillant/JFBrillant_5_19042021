@@ -143,6 +143,6 @@ function displayTotalAmount(productsInCart) {
 
 function displayEmptyCart() {
     const emptyCart =
-        `<p class="text-center">Le pannier est vide !</p>`
+        `<p class="text-center h2">Le pannier est vide !</p>`
     document.getElementById("empty-cart").innerHTML = emptyCart;
 }
