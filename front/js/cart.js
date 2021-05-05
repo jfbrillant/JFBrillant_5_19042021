@@ -1,17 +1,24 @@
-async function retrieveProducts() {
-    try {
-        const res = await fetch("http://localhost:3000/api/teddies");
-        return res.json();
-
-    } catch (e) {
-        console.log('Error', e);
-    }
+function sendOrder(){
+    let productsInCart = JSON.parse(localStorage.getItem("product"));
+    console.log(formValues);
+    console.log(productsInCart);
+    fetch("http://localhost:3000/api/teddies/order", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+          },
+        body: JSON.stringify({
+            contact: formValues,
+            products: productsInCart
+          })
+    })
+    .then(res => res.json())
+    .then(res => console.log(res))
+    .catch(error => console.log('Error', error))
 }
 
 async function showContent() {
     try {
-        const product = await retrieveProducts();
-        
         let productsInCart = JSON.parse(localStorage.getItem("product"));
         
         if(productsInCart === null || productsInCart == 0){
@@ -28,14 +35,15 @@ async function showContent() {
     } catch (e) {
         console.log('Error', e);
     }
-  }
+}
   
-  showContent();
+showContent();
  
 
 
 
 
+//-------------------------------- Cart Functions -------------------------------------
 
 function setPrice(productsInCart) {
     for(const p in productsInCart) {
@@ -146,3 +154,100 @@ function displayEmptyCart() {
         `<p class="text-center h2">Le pannier est vide !</p>`
     document.getElementById("empty-cart").innerHTML = emptyCart;
 }
+
+
+
+//-------------------------------- Form Functions -------------------------------------
+
+let formValues = {
+    firstName : document.getElementById("inputFirstName").value,
+    lastName : document.getElementById("inputLastName").value,
+    address : document.getElementById("inputAddress").value,
+    city : document.getElementById("inputCity").value,
+    email : document.getElementById("inputMail").value
+}
+
+function formControl(regex, value) {
+    if(regex.test(value)) {
+        return true;
+    } else {
+        return false; 
+    }
+}
+
+function mailConfirmControl() {
+    if(document.getElementById("inputMail").value === document.getElementById("inputMailConfirm").value) {
+        return true;
+    } else {
+        return false; 
+    }
+}
+
+function changeBorderColor(regex, input) {
+    document.getElementById(input).addEventListener('input', function(e) {
+        if(formControl(regex, e.target.value)) {
+            document.getElementById(input).classList.remove("border-danger");
+            document.getElementById(input).classList.add("border-success");
+        } else {
+            document.getElementById(input).classList.remove("border-success");
+            document.getElementById(input).classList.add("border-danger");
+        }
+    });
+}
+
+function changeMailConfirmBorderColor(regex) {
+    document.getElementById("inputMailConfirm").addEventListener('input', function(e) {
+        if(mailConfirmControl() && formControl(regex, e.target.value)) {
+            document.getElementById("inputMailConfirm").classList.remove("border-danger");
+            document.getElementById("inputMailConfirm").classList.add("border-success");
+        } else {
+            document.getElementById("inputMailConfirm").classList.remove("border-success");
+            document.getElementById("inputMailConfirm").classList.add("border-danger");
+        }
+    });
+}
+
+formControl(/^[A-Za-z-éïî]{3,20}$/, formValues.firstName);
+changeBorderColor(/^[A-Za-z-éïî]{3,20}$/, "inputFirstName");
+
+formControl(/^[A-Za-z]{3,20}$/, formValues.lastName);
+changeBorderColor(/^[A-Za-z]{3,20}$/, "inputLastName");
+
+formControl(/^[A-Za-z0-9\s]{3,40}$/, formValues.address);
+changeBorderColor(/^[A-Za-z0-9\s]{3,40}$/, "inputAddress");
+
+formControl(/^[A-Za-z\s-]{3,20}$/, formValues.city);
+changeBorderColor(/^[A-Za-z\s-]{3,20}$/, "inputCity");
+
+formControl(/^\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b$/, formValues.email);
+changeBorderColor(/^\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b$/, "inputMail");
+
+mailConfirmControl();
+changeMailConfirmBorderColor(/^\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b$/);
+
+
+
+
+document.getElementById("checkout-button").addEventListener('click', function(e) {
+    e.preventDefault();
+
+    formValues = {
+        firstName : document.getElementById("inputFirstName").value,
+        lastName : document.getElementById("inputLastName").value,
+        address : document.getElementById("inputAddress").value,
+        city : document.getElementById("inputCity").value,
+        email : document.getElementById("inputMail").value
+    };
+
+    if(formControl(/^[A-Za-z-éïî]{3,20}$/, formValues.firstName) 
+        && formControl(/^[A-Za-z]{3,20}$/, formValues.lastName) 
+        && formControl(/^[A-Za-z0-9\s]{3,40}$/, formValues.address) 
+        && formControl(/^[A-Za-z\s-]{3,20}$/, formValues.city) 
+        && formControl(/^\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b$/, formValues.email)
+        && mailConfirmControl()) {
+            console.log("OUI");
+            sendOrder();
+        } else {
+            console.log("NON");
+        }
+});

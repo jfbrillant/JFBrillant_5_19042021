@@ -61,36 +61,36 @@
                 <div class="row">
                     <div class="col">
                         <h2 class="text-center">Nous avons besoin de quelques informations :</h2>
-                        <form action="" name="checkout-form">
+                        <form name="checkout-form">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="inputFirstName">Prénom</label>
-                                    <input type="text" class="form-control" id="inputFirstName" placeholder="Prénom">
+                                    <input type="text" class="form-control" id="inputFirstName" placeholder="Prénom" required>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="inputLastName">Nom</label>
-                                    <input type="text" class="form-control" id="inputLastName" placeholder="Nom">
+                                    <input type="text" class="form-control" id="inputLastName" placeholder="Nom" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputAddress">Addresse</label>
-                                <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                                <input type="text" class="form-control" id="inputAddress" placeholder="6 rue des oursons" required>
                             </div>
                             <div class="form-group">
                                 <label for="inputCity">Ville</label>
-                                <input type="text" class="form-control" id="inputCity" placeholder="Paris">
+                                <input type="text" class="form-control" id="inputCity" placeholder="Paris" required>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="inputMail">E-mail</label>
-                                    <input type="email" class="form-control" id="inputMail" placeholder="exemple@mail.com">
+                                    <input type="email" class="form-control" id="inputMail" placeholder="exemple@mail.com" required>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="inputMail">Confirmation e-mail</label>
-                                    <input type="email" class="form-control" id="inputMail" placeholder="exemple@mail.com">
+                                    <input type="email" class="form-control" id="inputMailConfirm" placeholder="exemple@mail.com" required>
                                 </div>
                             </div>
-                            <button type="submit" class=" col btn btn-dark">Acheter maintenant</button>
+                            <button type="submit" id="checkout-button" class=" col btn btn-dark">Acheter maintenant</button>
                         </form>
                     </div>
                 </div>
