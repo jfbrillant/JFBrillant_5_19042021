@@ -1,51 +1,62 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta description="Recapitulatif de votre commande sur Orinoco." >
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta description="Recapitulatif de votre commande sur Orinoco." />
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/style.css" />
     <title>Votre commande</title>
 </head>
 
-    <body>
+<body>
     <header class="relative">
         <div class="bg-dark shadow-lg">
             <div class="container">
                 <div class="row py-1">
                     <nav class="col navbar navbar-expand-lg navbar-dark">
                         <a class="navbar-brand" href="index.html">Orinoco</a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent">
-                           <span class="navbar-toggler-icon"></span>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarContent">
+                            <span class="navbar-toggler-icon"></span>
                         </button>
                         <div id="navbarContent" class="collapse navbar-collapse">
-                           <ul class="navbar-nav">
-                              <li class="nav-item">
-                                 <a class="nav-link" href="index.html">Accueil</a>
-                              </li>
-                              <li class="nav-item">
-                                 <a class="nav-link" href="cart.html">Panier</a>
-                              </li>
-                           </ul>
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="index.html">Accueil</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="cart.html">Panier</a>
+                                </li>
+                            </ul>
                         </div>
-                     </nav>
+                    </nav>
                 </div>
             </div>
         </div>
     </header>
-    
+
     <main>
         <div class="container">
-            <div class="row py-2 py-lg-5">
+            <div class="row py-3 py-lg-5">
                 <div class="col">
-                    <h1 class="text-center">Nous vous remercions pour votre commande !</h1>
+                    <h1 class="text-center">
+                        Nous vous remercions pour votre commande !
+                    </h1>
                 </div>
             </div>
-            <div class="row py-2 py-lg-5">
-                <div id="order" class="col">
+            <div class="row w-75 mx-auto">
+                <div id="order" class="col py-3 my-5 shadow"></div>
+            </div>
+            <div class="row py-3 py-lg-5">
+                <div class="col">
+                    <h2 class="text-center">Au plaisir de vous revoir !</h2>
                 </div>
+            </div>
+            <div class="row pb-5">
+                <div id="home-button" class="col"></div>
             </div>
         </div>
     </main>
@@ -60,7 +71,9 @@
                             <li class="list-inline-item">&middot;</li>
                             <li class="list-inline-item"><a href="#">Vie privée</a></li>
                             <li class="list-inline-item">&middot;</li>
-                            <li class="list-inline-item"><a href="#">Conditions d'utilisations</a></li>
+                            <li class="list-inline-item">
+                                <a href="#">Conditions d'utilisations</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -68,16 +81,12 @@
         </div>
     </footer>
 
-    <!-- Optional JavaScript -->
-    
     <!-- jQuery and Popper.js, then Bootstrap JS -->
-    
+
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./js/order.js"></script>
-    <!-- <script src="./polyfill.bundle.js"></script>
-    <script src="./app.bundle.js"></script> -->
-    </body>
+</body>
 
 </html>

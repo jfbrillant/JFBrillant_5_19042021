@@ -40,7 +40,9 @@ function displayProduct(product) {
                 <div class="card-body">
                     <h2 class="card-text">${product.name}</h2>
                     <p class="card-text">${product.description}</p>
-                    <p class="card-text">${product.price / 100} €</p>
+                    <p class="card-text font-weight-bold">${
+                      product.price / 100
+                    } €</p>
                 </div>
             </div>
         </div>`;

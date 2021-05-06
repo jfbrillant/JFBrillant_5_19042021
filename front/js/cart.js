@@ -28,6 +28,7 @@ function showContent() {
 
     if (productsInCart === null || productsInCart == 0) {
         displayEmptyCart();
+        setHomeButton();
     } else {
         setPrice(productsInCart);
         displayCart(productsInCart);
@@ -35,9 +36,11 @@ function showContent() {
         displayClearCartbutton();
         setClearCartbutton();
         displayTotalAmount(productsInCart);
+        setCartEndButtons();
+
         displayForm();
-        applyFormControl();
-        setCheckoutButton();
+        applyFormControlOnInput();
+        setFormSubmit();
     }
 }
 
@@ -134,7 +137,7 @@ function setClearCartbutton(productsInCart) {
         .addEventListener("click", function (e) {
             e.preventDefault;
             productsInCart = [];
-            localStorage.setItem("product", JSON.stringify(productsInCart))
+            localStorage.setItem("product", JSON.stringify(productsInCart));
             window.location.href = "cart.html";
         });
 }
@@ -152,9 +155,47 @@ function displayTotalAmount(productsInCart) {
     localStorage.setItem("orderTotalAmount", JSON.stringify(setTotalAmount));
 }
 
+function setCartEndButtons() {
+    const CartEndButtons = `<div class="col-12 col-lg my-2">
+    <button id="ReturnToProducts" type="button" class="btn btn-dark col">Continuer vos achats</button>
+    </div>
+    <div class="col-12 col-lg my-2">
+    <button id="goToCheckout" type="button" class="btn btn-dark col">Aller à la caisse</button>
+    </div>`;
+
+    document.getElementById("CartEndButtons").innerHTML = CartEndButtons;
+
+    document
+        .getElementById("ReturnToProducts")
+        .addEventListener("click", function (e) {
+            e.preventDefault;
+            window.location.href = "index.html";
+        });
+
+    document
+        .getElementById("goToCheckout")
+        .addEventListener("click", function (e) {
+            e.preventDefault;
+            window.location.href = "#checkout-form";
+        });
+}
+
 function displayEmptyCart() {
-    const emptyCart = `<p class="text-center h2">Le pannier est vide !</p>`;
+    const emptyCart = `<p class="text-center h2 my-5">Le pannier est vide !</p>`;
     document.getElementById("empty-cart").innerHTML = emptyCart;
+}
+
+function setHomeButton() {
+    const homeButton = `<button type="button" class="btn btn-dark col">Retour à l'accueil</button>`;
+
+    document.getElementById("empty-cart").innerHTML += homeButton;
+
+    document
+        .querySelector("#empty-cart button")
+        .addEventListener("click", function (e) {
+            e.preventDefault;
+            window.location.href = "index.html";
+        });
 }
 
 //-------------------------------------- Form Functions ------------------------------------------
@@ -188,13 +229,15 @@ function displayForm() {
                 <input type="email" class="form-control" id="inputMailConfirm" placeholder="exemple@mail.com" required>
             </div>
         </div>
+        <div id="unvalid-form-message" class="col">
+        </div>
         <button type="submit" id="checkout-button" class=" col btn btn-dark">Acheter maintenant</button>`;
 
     document.getElementById("checkout-form").innerHTML = CheckoutForm;
 }
 
-function formControl(regex, value) {
-    if (regex.test(value)) {
+function formControl(regex, inputValue) {
+    if (regex.test(inputValue)) {
         return true;
     } else {
         return false;
@@ -212,7 +255,7 @@ function mailConfirmControl() {
     }
 }
 
-function changeBorderColor(regex, input) {
+function changeBorderColorOnInput(regex, input) {
     document.getElementById(input).addEventListener("input", function (e) {
         if (formControl(regex, e.target.value)) {
             document.getElementById(input).classList.remove("border-danger");
@@ -222,6 +265,16 @@ function changeBorderColor(regex, input) {
             document.getElementById(input).classList.add("border-danger");
         }
     });
+}
+
+function changeBorderColorOnSubmit(regex, input) {
+    if (
+        !formControl(regex, document.getElementById(input).value) ||
+        document.getElementById(input).value === null
+    ) {
+        document.getElementById(input).classList.remove("border-success");
+        document.getElementById(input).classList.add("border-danger");
+    }
 }
 
 function changeMailConfirmBorderColor(regex) {
@@ -248,29 +301,85 @@ function changeMailConfirmBorderColor(regex) {
 
 //-------------------------------- Apply form control on all fields -----------------------------
 
-function applyFormControl() {
-    formControl(/^[A-Za-z-éïî]{3,20}$/, document.getElementById("inputFirstName").value);
-    changeBorderColor(/^[A-Za-z-éïî]{3,20}$/, "inputFirstName");
+function applyFormControlOnInput() {
+    formControl(
+        /^[A-Za-z-éïî]{3,20}$/,
+        document.getElementById("inputFirstName").value
+    );
+    changeBorderColorOnInput(/^[A-Za-z-éïî]{3,20}$/, "inputFirstName");
 
-    formControl(/^[A-Za-z]{3,20}$/, document.getElementById("inputLastName").value);
-    changeBorderColor(/^[A-Za-z]{3,20}$/, "inputLastName");
+    formControl(
+        /^[A-Za-z]{3,20}$/,
+        document.getElementById("inputLastName").value
+    );
+    changeBorderColorOnInput(/^[A-Za-z]{3,20}$/, "inputLastName");
 
-    formControl(/^[A-Za-z0-9\s]{3,40}$/, document.getElementById("inputAddress").value);
-    changeBorderColor(/^[A-Za-z0-9\s]{3,40}$/, "inputAddress");
+    formControl(
+        /^[A-Za-z0-9\s]{3,40}$/,
+        document.getElementById("inputAddress").value
+    );
+    changeBorderColorOnInput(/^[A-Za-z0-9\s]{3,40}$/, "inputAddress");
 
-    formControl(/^[A-Za-z\s-]{3,20}$/, document.getElementById("inputCity").value);
-    changeBorderColor(/^[A-Za-z\s-]{3,20}$/, "inputCity");
+    formControl(
+        /^[A-Za-z\s-]{3,20}$/,
+        document.getElementById("inputCity").value
+    );
+    changeBorderColorOnInput(/^[A-Za-z\s-]{3,20}$/, "inputCity");
 
-    formControl(/^\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b$/, document.getElementById("inputMail").value);
-    changeBorderColor(/^\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b$/, "inputMail");
+    formControl(
+        /^\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b$/,
+        document.getElementById("inputMail").value
+    );
+    changeBorderColorOnInput(/^\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b$/, "inputMail");
 
     mailConfirmControl();
     changeMailConfirmBorderColor(/^\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b$/);
 }
 
+function applyFormControlOnSubmit() {
+    formControl(
+        /^[A-Za-z-éïî]{3,20}$/,
+        document.getElementById("inputFirstName").value
+    );
+    changeBorderColorOnSubmit(/^[A-Za-z-éïî]{3,20}$/, "inputFirstName");
+
+    formControl(
+        /^[A-Za-z]{3,20}$/,
+        document.getElementById("inputLastName").value
+    );
+    changeBorderColorOnSubmit(/^[A-Za-z]{3,20}$/, "inputLastName");
+
+    formControl(
+        /^[A-Za-z0-9\s]{3,40}$/,
+        document.getElementById("inputAddress").value
+    );
+    changeBorderColorOnSubmit(/^[A-Za-z0-9\s]{3,40}$/, "inputAddress");
+
+    formControl(
+        /^[A-Za-z\s-]{3,20}$/,
+        document.getElementById("inputCity").value
+    );
+    changeBorderColorOnSubmit(/^[A-Za-z\s-]{3,20}$/, "inputCity");
+
+    formControl(
+        /^\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b$/,
+        document.getElementById("inputMail").value
+    );
+    changeBorderColorOnSubmit(/^\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b$/, "inputMail");
+
+    formControl(
+        /^\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b$/,
+        document.getElementById("inputMailConfirm").value
+    );
+    changeBorderColorOnSubmit(
+        /^\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b$/,
+        "inputMailConfirm"
+    );
+}
+
 //--------- If form is valid, save all fields values into an object and call sendOrder function -----------
 
-function setCheckoutButton() {
+function setFormSubmit() {
     document
         .getElementById("checkout-button")
         .addEventListener("click", function (e) {
@@ -292,11 +401,14 @@ function setCheckoutButton() {
                 formControl(/^\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b$/, formValues.email) &&
                 mailConfirmControl()
             ) {
-                console.log("OUI");
                 sendOrder(formValues);
                 window.location.href = "order.html";
             } else {
-                console.log("NON");
+                applyFormControlOnSubmit();
+                const UnvalidFormMessage = `<p class="text-center text-danger">Saisie incorrecte, vérifiez que tous les champs encadrés en rouge soient remplis et valides</p>`;
+                document.getElementById(
+                    "unvalid-form-message"
+                ).innerHTML = UnvalidFormMessage;
             }
         });
 }
