@@ -6,6 +6,7 @@ function sendOrder(formValues) {
     for (const p in productsInCart) {
         product_id.push(productsInCart[p].id);
     }
+    console.log(product_id);
     fetch("http://localhost:3000/api/teddies/order", {
             method: "POST",
             headers: {
@@ -17,7 +18,11 @@ function sendOrder(formValues) {
             }),
         })
         .then((res) => res.json())
-        .then((res) => localStorage.setItem("order", JSON.stringify(res)))
+        .then((res) => {
+            localStorage.removeItem("product");
+            localStorage.setItem("order", JSON.stringify(res));
+            window.location.href = "order.html";
+        })
         .catch((error) => console.log("Error", error));
 }
 
@@ -38,7 +43,6 @@ function showContent() {
         displayTotalAmount(productsInCart);
         setCartEndButtons();
 
-        displayForm();
         applyFormControlOnInput();
         setFormSubmit();
     }
@@ -200,42 +204,6 @@ function setHomeButton() {
 
 //-------------------------------------- Form Functions ------------------------------------------
 
-function displayForm() {
-    const CheckoutForm = `<div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="inputFirstName">Prénom</label>
-                <input type="text" class="form-control" id="inputFirstName" placeholder="Prénom" required>
-            </div>
-            <div class="form-group col-md-6">
-                <label for="inputLastName">Nom</label>
-                <input type="text" class="form-control" id="inputLastName" placeholder="Nom" required>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="inputAddress">Addresse</label>
-            <input type="text" class="form-control" id="inputAddress" placeholder="6 rue des oursons" required>
-        </div>
-        <div class="form-group">
-            <label for="inputCity">Ville</label>
-            <input type="text" class="form-control" id="inputCity" placeholder="Paris" required>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="inputMail">E-mail</label>
-                <input type="email" class="form-control" id="inputMail" placeholder="exemple@mail.com" required>
-            </div>
-            <div class="form-group col-md-6">
-                <label for="inputMail">Confirmation e-mail</label>
-                <input type="email" class="form-control" id="inputMailConfirm" placeholder="exemple@mail.com" required>
-            </div>
-        </div>
-        <div id="unvalid-form-message" class="col">
-        </div>
-        <button type="submit" id="checkout-button" class=" col btn btn-dark">Acheter maintenant</button>`;
-
-    document.getElementById("checkout-form").innerHTML = CheckoutForm;
-}
-
 function formControl(regex, inputValue) {
     if (regex.test(inputValue)) {
         return true;
@@ -256,15 +224,17 @@ function mailConfirmControl() {
 }
 
 function changeBorderColorOnInput(regex, input) {
-    document.getElementById(input).addEventListener("input", function (e) {
-        if (formControl(regex, e.target.value)) {
-            document.getElementById(input).classList.remove("border-danger");
-            document.getElementById(input).classList.add("border-success");
-        } else {
-            document.getElementById(input).classList.remove("border-success");
-            document.getElementById(input).classList.add("border-danger");
-        }
-    });
+    document
+        .getElementById(input)
+        .addEventListener("input", function (e) {
+            if (formControl(regex, e.target.value)) {
+                document.getElementById(input).classList.remove("border-danger");
+                document.getElementById(input).classList.add("border-success");
+            } else {
+                document.getElementById(input).classList.remove("border-success");
+                document.getElementById(input).classList.add("border-danger");
+            }
+        });
 }
 
 function changeBorderColorOnSubmit(regex, input) {
@@ -302,79 +272,21 @@ function changeMailConfirmBorderColor(regex) {
 //-------------------------------- Apply form control on all fields -----------------------------
 
 function applyFormControlOnInput() {
-    formControl(
-        /^[A-Za-z-éïî]{3,20}$/,
-        document.getElementById("inputFirstName").value
-    );
     changeBorderColorOnInput(/^[A-Za-z-éïî]{3,20}$/, "inputFirstName");
-
-    formControl(
-        /^[A-Za-z]{3,20}$/,
-        document.getElementById("inputLastName").value
-    );
     changeBorderColorOnInput(/^[A-Za-z]{3,20}$/, "inputLastName");
-
-    formControl(
-        /^[A-Za-z0-9\s]{3,40}$/,
-        document.getElementById("inputAddress").value
-    );
     changeBorderColorOnInput(/^[A-Za-z0-9\s]{3,40}$/, "inputAddress");
-
-    formControl(
-        /^[A-Za-z\s-]{3,20}$/,
-        document.getElementById("inputCity").value
-    );
     changeBorderColorOnInput(/^[A-Za-z\s-]{3,20}$/, "inputCity");
-
-    formControl(
-        /^\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b$/,
-        document.getElementById("inputMail").value
-    );
     changeBorderColorOnInput(/^\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b$/, "inputMail");
-
-    mailConfirmControl();
     changeMailConfirmBorderColor(/^\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b$/);
 }
 
 function applyFormControlOnSubmit() {
-    formControl(
-        /^[A-Za-z-éïî]{3,20}$/,
-        document.getElementById("inputFirstName").value
-    );
     changeBorderColorOnSubmit(/^[A-Za-z-éïî]{3,20}$/, "inputFirstName");
-
-    formControl(
-        /^[A-Za-z]{3,20}$/,
-        document.getElementById("inputLastName").value
-    );
     changeBorderColorOnSubmit(/^[A-Za-z]{3,20}$/, "inputLastName");
-
-    formControl(
-        /^[A-Za-z0-9\s]{3,40}$/,
-        document.getElementById("inputAddress").value
-    );
     changeBorderColorOnSubmit(/^[A-Za-z0-9\s]{3,40}$/, "inputAddress");
-
-    formControl(
-        /^[A-Za-z\s-]{3,20}$/,
-        document.getElementById("inputCity").value
-    );
     changeBorderColorOnSubmit(/^[A-Za-z\s-]{3,20}$/, "inputCity");
-
-    formControl(
-        /^\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b$/,
-        document.getElementById("inputMail").value
-    );
     changeBorderColorOnSubmit(/^\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b$/, "inputMail");
-
-    formControl(
-        /^\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b$/,
-        document.getElementById("inputMailConfirm").value
-    );
-    changeBorderColorOnSubmit(
-        /^\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b$/,
-        "inputMailConfirm"
-    );
+    changeBorderColorOnSubmit(/^\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b$/, "inputMailConfirm");
 }
 
 //--------- If form is valid, save all fields values into an object and call sendOrder function -----------
@@ -402,13 +314,11 @@ function setFormSubmit() {
                 mailConfirmControl()
             ) {
                 sendOrder(formValues);
-                window.location.href = "order.html";
             } else {
                 applyFormControlOnSubmit();
                 const UnvalidFormMessage = `<p class="text-center text-danger">Saisie incorrecte, vérifiez que tous les champs encadrés en rouge soient remplis et valides</p>`;
-                document.getElementById(
-                    "unvalid-form-message"
-                ).innerHTML = UnvalidFormMessage;
+                document.getElementById("unvalid-form-message").innerHTML =
+                    UnvalidFormMessage;
             }
         });
 }

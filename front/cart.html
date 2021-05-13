@@ -61,7 +61,39 @@
                         <h2 class="text-center">
                             Nous avons besoin de quelques informations :
                         </h2>
-                        <form id="checkout-form" name="checkout-form"></form>
+                        <form id="checkout-form" name="checkout-form">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputFirstName">Prénom</label>
+                                    <input type="text" class="form-control" id="inputFirstName" placeholder="Prénom" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputLastName">Nom</label>
+                                    <input type="text" class="form-control" id="inputLastName" placeholder="Nom" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputAddress">Addresse</label>
+                                <input type="text" class="form-control" id="inputAddress" placeholder="6 rue des oursons" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputCity">Ville</label>
+                                <input type="text" class="form-control" id="inputCity" placeholder="Paris" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputMail">E-mail</label>
+                                    <input type="email" class="form-control" id="inputMail" placeholder="exemple@mail.com" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputMail">Confirmation e-mail</label>
+                                    <input type="email" class="form-control" id="inputMailConfirm" placeholder="exemple@mail.com" required>
+                                </div>
+                            </div>
+                            <div id="unvalid-form-message" class="col">
+                            </div>
+                            <button type="submit" id="checkout-button" class=" col btn btn-dark">Acheter maintenant</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -79,7 +111,7 @@
                             <li class="list-inline-item"><a href="#">Vie privée</a></li>
                             <li class="list-inline-item">&middot;</li>
                             <li class="list-inline-item">
-                                <a href="#">Conditions d'utilisations</a>
+                                <a href="#">Conditions d'utilisation</a>
                             </li>
                         </ul>
                     </div>
